@@ -127,15 +127,15 @@ def is_prime(n):
 | Learning Rate | 2e-4 |
 | Precision | BFloat16 |
 | Max Sequence Length | 512 tokens |
-| Final Training Loss | ~0.57 |
-| Token Accuracy | ~84.5% |
+| Final Training Loss | ~0.669 |
+| Token Accuracy | ~82.6% |
 
 ---
 
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/pyroton.git
+git clone https://github.com/TunasTuna/pyroton.git
 cd pyroton
 pip install -r requirements.txt
 ```
