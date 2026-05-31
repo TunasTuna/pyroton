@@ -9,6 +9,8 @@
 ![License](https://img.shields.io/badge/License-Apache%202.0-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
+</div>
+
 ---
 
 ## 📖 Overview
@@ -176,4 +178,4 @@ Base model (Qwen2.5-Coder) is also Apache 2.0. Attribution to Alibaba Cloud / Qw
 
 ---
 
-<p align="center">Made with 🔥 by <strong>YOUR_NAME</strong></p>
+<p align="center">Made with 🔥 by <strong>TunasTuna</strong></p>
