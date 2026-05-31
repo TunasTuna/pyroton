@@ -13,7 +13,7 @@
 
 ---
 
-## 📖 Overview
+## Overview
 
 **Pyroton** is a lightweight Python code generation model fine-tuned from [Qwen/Qwen2.5-Coder-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B-Instruct) using supervised fine-tuning (SFT) on the [iamtarun/python_code_instructions_18k_alpaca](https://huggingface.co/datasets/iamtarun/python_code_instructions_18k_alpaca) dataset.
 
@@ -21,17 +21,17 @@ The goal of this project is to produce a small, efficient model that generates c
 
 ---
 
-## ✨ Features
+## Features
 
-- 🐍 **Python-focused** — trained exclusively on Python instruction-output pairs
-- ⚡ **Lightweight** — 0.5B parameters, runs on free-tier GPUs
-- 🧠 **Instruction-following** — understands natural language prompts
-- 🔁 **Chunked training** — resilient to cloud session interruptions
-- ☁️ **Auto-saved to HuggingFace** — model pushed after every training chunk
+- **Python-focused** — trained exclusively on Python instruction-output pairs
+- **Lightweight** — 0.5B parameters, runs on free-tier GPUs
+- **Instruction-following** — understands natural language prompts
+- **Chunked training** — resilient to cloud session interruptions
+- **Auto-saved to HuggingFace** — model pushed after every training chunk
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 pyroton/
@@ -49,7 +49,7 @@ pyroton/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Run with Ollama (Local)
 
@@ -93,7 +93,7 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 ---
 
-## 🧪 Example Output
+## Example Output
 
 **Prompt:**
 ```
@@ -113,7 +113,7 @@ def is_prime(n):
 
 ---
 
-## 🛠️ Training Details
+## Training Details
 
 | Setting | Value |
 |---|---|
@@ -132,7 +132,7 @@ def is_prime(n):
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/pyroton.git
@@ -142,14 +142,14 @@ pip install -r requirements.txt
 
 ---
 
-## 🤗 HuggingFace Model
+## HuggingFace Model
 
 The fine-tuned model is available on HuggingFace:
-👉 [YOUR_HF_USERNAME/pyroton](https://huggingface.co/YOUR_HF_USERNAME/pyroton)
+[shohuu/pyroton](https://huggingface.co/shohuu/pyroton)
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 See `requirements.txt` for the full list. Main dependencies:
 
@@ -162,7 +162,7 @@ See `requirements.txt` for the full list. Main dependencies:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **Apache 2.0 License** — see the [LICENSE](LICENSE) file for details.
 
@@ -170,7 +170,7 @@ Base model (Qwen2.5-Coder) is also Apache 2.0. Attribution to Alibaba Cloud / Qw
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - [Qwen Team](https://huggingface.co/Qwen) for the base model
 - [iamtarun](https://huggingface.co/datasets/iamtarun/python_code_instructions_18k_alpaca) for the Python dataset
@@ -178,4 +178,4 @@ Base model (Qwen2.5-Coder) is also Apache 2.0. Attribution to Alibaba Cloud / Qw
 
 ---
 
-<p align="center">Made with 🔥 by <strong>TunasTuna</strong></p>
+<p align="center">Made with by <strong>TunasTuna</strong></p>
