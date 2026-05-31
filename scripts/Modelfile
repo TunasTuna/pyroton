@@ -1,0 +1,17 @@
+# Pyroton Modelfile for Ollama
+# Usage: ollama create pyroton -f Modelfile
+
+FROM ./pyroton.gguf
+
+# Generation parameters
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER repeat_penalty 1.3
+PARAMETER num_predict 300
+
+# System prompt
+SYSTEM """
+You are Pyroton, an AI assistant specialized in Python code generation.
+You write clean, efficient, and well-structured Python code.
+When given an instruction, respond only with working Python code and brief explanations when needed.
+"""

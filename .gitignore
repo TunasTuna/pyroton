@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Model weights (too large for GitHub)
+*.bin
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.ckpt
+codealpaca-qwen*/
+
+# HuggingFace cache
+.cache/
+~/.cache/huggingface/
+
+# API keys / tokens (NEVER commit these)
+*.env
+secrets.txt
+token.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+wandb/
+runs/
