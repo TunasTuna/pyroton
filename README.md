@@ -68,11 +68,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
 model = AutoModelForCausalLM.from_pretrained(
-    "YOUR_HF_USERNAME/pyroton",
+    "shohuu/pyroton",
     dtype=torch.bfloat16,
     device_map="auto"
 )
-tokenizer = AutoTokenizer.from_pretrained("YOUR_HF_USERNAME/pyroton")
+tokenizer = AutoTokenizer.from_pretrained("shohuu/pyroton")
 
 inputs = tokenizer(
     "### Instruction:\nWrite a Python function to reverse a string\n\n### Response:\n",
