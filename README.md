@@ -175,7 +175,4 @@ Base model (Qwen2.5-Coder) is also Apache 2.0. Attribution to Alibaba Cloud / Qw
 - [Qwen Team](https://huggingface.co/Qwen) for the base model
 - [iamtarun](https://huggingface.co/datasets/iamtarun/python_code_instructions_18k_alpaca) for the Python dataset
 - [HuggingFace](https://huggingface.co) for the model hub and libraries
-
----
-
-<p align="center">Made with by <strong>TunasTuna</strong></p>
+- [Yumi](https://www.tiktok.com/@yumi_naomi6?_r=1&_t=ZS-96ok4qcUKij) for the name of this project.
