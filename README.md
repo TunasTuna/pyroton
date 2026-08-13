@@ -8,6 +8,7 @@
 
 ---
 ## Discontinued!
+I will not be continuing this project anymore due to the files that I lost.
 
 ---
 
