@@ -22,6 +22,29 @@ Pyroton was originally trained with supervised fine-tuning (SFT) on Python instr
 
 ---
 
+## Run Pyroton locally
+
+The published [Q4_K_M GGUF](https://huggingface.co/shohuu/Pyroton/blob/7b617718c20aed8410a74c7f0fbbf4bef5f763b6/pyroton-q4.gguf) is about 397 MB. From the repository root, with [Ollama](https://docs.ollama.com/) running:
+
+```sh
+curl -fL https://huggingface.co/shohuu/Pyroton/resolve/7b617718c20aed8410a74c7f0fbbf4bef5f763b6/pyroton-q4.gguf -o scripts/pyroton-q4.gguf
+ollama create pyroton -f scripts/Modelfile
+ollama run pyroton "Write a Python function named reverse_string that reverses a string. Return only Python code."
+```
+
+In Windows PowerShell, use `curl.exe`. The published model card does not identify the adapter revision merged into this GGUF.
+
+To try the Transformers adapters with Python 3.12 on CPU or CUDA:
+
+```sh
+python -m pip install -r requirements-inference.txt
+python scripts/generate.py --model primefix "Write a Python function to check whether an integer is prime."
+```
+
+Use `--model pyroton` for the original adapter or `--model qwen` for stock Qwen.
+
+---
+
 ## Current Model Variants
 
 ### Base project adapter
@@ -51,11 +74,11 @@ Pyroton was originally trained with supervised fine-tuning (SFT) on Python instr
 ```text
 pyroton/
   notebooks/
-    llm_final.ipynb        # Main training notebook
+    train.ipynb        # Main training notebook
   scripts/
+    generate.py            # CPU/CUDA inference CLI
     Modelfile              # Ollama integration file
-  assets/
-    (diagrams, images)
+  benchmarks/              # Python correctness tasks and evaluator
   README.md
   requirements.txt
   .gitignore
@@ -141,88 +164,22 @@ This means the model is currently most reliable in deterministic correctness-foc
 
 ---
 
-## Recommended Inference Settings
+## Benchmark correctness and speed
 
-### Correctness mode (recommended)
-Use this for more reliable code generation:
+The [benchmark](benchmarks/evaluate.py) scores the first completion for each of 40 short Python tasks. A task passes when its generated function passes every test case. The same prompts and token budget are used across models, with the native chat format for stock Qwen and the Alpaca format for the adapters and GGUF.
 
-```python
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
+Install the inference dependencies for the three Transformers variants. Scoring also requires Docker running Linux containers. Pull the scoring image once, then run the evaluator from the repo root:
 
-base = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct",
-    dtype=torch.bfloat16,
-    device_map="auto",
-)
-
-model = PeftModel.from_pretrained(base, "shohuu/pyroton-primefix-v3")
-tokenizer = AutoTokenizer.from_pretrained("shohuu/pyroton-primefix-v3")
-tokenizer.pad_token = tokenizer.eos_token
-
-prompt = "### Instruction:\nWrite a Python function to check if a number is prime\n\n### Response:\n"
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-
-outputs = model.generate(
-    **inputs,
-    max_new_tokens=220,
-    do_sample=False,
-    repetition_penalty=1.1,
-)
-
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```sh
+docker pull python:3.12-slim
+python benchmarks/evaluate.py --model qwen --output qwen.json
+python benchmarks/evaluate.py --model pyroton --output pyroton.json
+python benchmarks/evaluate.py --model primefix --output primefix.json
+python benchmarks/evaluate.py --model gguf --output gguf.json
 ```
 
-### Sampled mode (less stable, more variety)
-If you still want sampling, keep it conservative:
+The JSON reports contain completions, pass counts, model provenance, and throughput. Ollama reports decode-only throughput, while the Transformers measurement includes prompt processing. Use `--limit 1` for a smoke run or `--generate-only` to collect completions without executing them. Run comparisons on the same hardware and record peak RAM separately. Compare quantization levels built from the same adapter revision to isolate the effect of quantization.
 
-```python
-outputs = model.generate(
-    **inputs,
-    max_new_tokens=220,
-    do_sample=True,
-    temperature=0.1,
-    top_p=0.9,
-    repetition_penalty=1.2,
-)
-```
-
----
-
-## Quick Start
-
-### Load the latest patched adapter
-
-```python
-from peft import PeftModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
-
-base = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen2.5-Coder-0.5B-Instruct",
-    dtype=torch.bfloat16,
-    device_map="auto",
-)
-
-model = PeftModel.from_pretrained(base, "shohuu/pyroton-primefix-v3")
-tokenizer = AutoTokenizer.from_pretrained("shohuu/pyroton-primefix-v3")
-tokenizer.pad_token = tokenizer.eos_token
-
-prompt = "### Instruction:\nWrite a Python function to reverse a string\n\n### Response:\n"
-inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-
-outputs = model.generate(
-    **inputs,
-    max_new_tokens=220,
-    do_sample=False,
-    repetition_penalty=1.1,
-)
-
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-```
-
----
 
 ## Known Limitations
 
@@ -230,18 +187,6 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 - Sampling can still reintroduce mistakes that disappear in greedy mode.
 - The project has been most thoroughly tested on short Python coding tasks; broader evaluation across more libraries/tasks is still needed.
 - Repair finetuning improved specific failure modes, but it does not replace a large benchmark suite.
-
----
-
-## GGUF / Lightweight Deployment
-
-Pyroton is intended to be compatible with lightweight deployment workflows, including GGUF conversion and mobile-oriented experimentation.
-
-If you export a new GGUF, make sure the README clearly states:
-- which adapter/revision was merged
-- quantization type (for example `Q4_K_M`)
-- file size
-- expected use case (correctness mode vs sampled mode)
 
 ---
 
