@@ -43,6 +43,19 @@ python scripts/generate.py --model primefix "Write a Python function to check wh
 
 Use `--model pyroton` for the original adapter or `--model qwen` for stock Qwen.
 
+### Run the optional 1.5B model
+
+For better first-try correctness on short Python tasks, try stock Qwen2.5-Coder-1.5B-Instruct. From the repository root, with `llama-cli` on your PATH:
+
+```sh
+curl -fL https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF/resolve/f86cb2c1fa58255f8052cc32aeede1b7482d4361/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf -o scripts/qwen-coder-1.5b-q4.gguf
+llama-cli -m scripts/qwen-coder-1.5b-q4.gguf -t 4 -c 2048 -n 512 --temp 0
+```
+
+Use `curl.exe` in Windows PowerShell. The download is about 1.12 GB.
+
+In a local Windows CPU benchmark with both models quantized to Q4_K_M, stock Qwen 1.5B passed 28 of 40 short tasks on the first try at 19.3 tokens/s. The 398 MB Pyroton GGUF passed 17 at 40.1 tokens/s. Throughput was measured separately on six matching prompts. Neither model passed all checks on any of the three larger assignments.
+
 ---
 
 ## Current Model Variants
